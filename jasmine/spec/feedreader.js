@@ -115,6 +115,17 @@ $(function() {
      * Remember, loadFeed() is asynchronous so this test will require
      * the use of Jasmine's beforeEach and asynchronous done() function.
      */
+
+     beforeEach(function(done) {
+        // clear feed container?
+        loadFeed(0, done);
+     });
+
+     it('are in the feed container after loadFeed is called', function() {
+        const entry = document.querySelector('.feed .entry');
+
+        expect(entry).not.toBeNull();
+     });
   });
 
   /* TODO: Write a new test suite named "New Feed Selection" */
