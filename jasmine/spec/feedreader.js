@@ -88,11 +88,11 @@ $(function() {
                         compare: function(actual, expected) {
                             const result = {};
                             result.pass = actual.classList.contains(expected);
-                            
+
                             if (result.pass) {
-                                result.message = 'Expected feed NOT to be non-empty string';
+                                result.message = `Expected element NOT to have class .${expected}`;
                             } else {
-                                result.message = 'Expected feed to be non-empty string';
+                                result.message = `Expected element to have class .${expected}`;
                             }
                             return result;
                         }
@@ -118,6 +118,16 @@ $(function() {
           * should have two expectations: does the menu display when
           * clicked and does it hide when clicked again.
           */
+          it('changes visibility when menu icon is clicked', function() {
+            const body = document.getElementsByTagName('body')[0];
+            const icon = document.getElementsByClassName('menu-icon-link')[0];
+
+            icon.click();
+            expect(body).not.toHaveClass('menu-hidden');
+
+            icon.click();
+            expect(body).toHaveClass('menu-hidden')
+          });
     });
 
     /* TODO: Write a new test suite named "Initial Entries" */
