@@ -140,6 +140,7 @@ $(function() {
     beforeEach(function(done) {
       const feedContainer = document.querySelector('.feed');
 
+      // what if feed 1 doesn't exist?
       loadFeed(1, () => {
         contentBefore = feedContainer.innerHTML;
         loadFeed(0, () => {
