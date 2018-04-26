@@ -85,7 +85,7 @@ $(function() {
      * hiding/showing of the menu element.
      */
     it('is hidden by default', function() {
-      const body = document.getElementsByTagName('body')[0];
+      const body = document.querySelector('body');
 
       expect(body.classList).toContain('menu-hidden')
     });
@@ -96,8 +96,8 @@ $(function() {
      * clicked and does it hide when clicked again.
      */
     it('changes visibility when menu icon is clicked', function() {
-      const body = document.getElementsByTagName('body')[0];
-      const icon = document.getElementsByClassName('menu-icon-link')[0];
+      const body = document.querySelector('body');
+      const icon = document.querySelector('.menu-icon-link');
 
       icon.click();
       expect(body.classList).not.toContain('menu-hidden');
