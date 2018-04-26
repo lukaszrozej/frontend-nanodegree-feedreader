@@ -81,27 +81,6 @@ $(function() {
     /* TODO: Write a new test suite named "The menu" */
     describe('The menu', function() {
 
-        beforeEach(function() {
-            const customMatchers = {
-                toHaveClass: function() {
-                    return {
-                        compare: function(actual, expected) {
-                            const result = {};
-                            result.pass = actual.classList.contains(expected);
-
-                            if (result.pass) {
-                                result.message = `Expected element NOT to have class .${expected}`;
-                            } else {
-                                result.message = `Expected element to have class .${expected}`;
-                            }
-                            return result;
-                        }
-                    }
-                }
-            };
-
-            jasmine.addMatchers(customMatchers);
-        });
         /* TODO: Write a test that ensures the menu element is
          * hidden by default. You'll have to analyze the HTML and
          * the CSS to determine how we're performing the
@@ -123,10 +102,10 @@ $(function() {
             const icon = document.getElementsByClassName('menu-icon-link')[0];
 
             icon.click();
-            expect(body).not.toHaveClass('menu-hidden');
+            expect(body.classList).not.toContain('menu-hidden');
 
             icon.click();
-            expect(body).toHaveClass('menu-hidden')
+            expect(body.classList).toContain('menu-hidden')
           });
     });
 
