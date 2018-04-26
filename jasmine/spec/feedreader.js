@@ -14,6 +14,30 @@ $(function() {
     * feeds definitions, the allFeeds variable in our application.
     */
     describe('RSS Feeds', function() {
+
+        // beforeEach or beforeAll
+        beforeEach(function() {
+            const customMatchers = {
+                toBeNonEmptyString: function() {
+                    return {
+                        compare: function(actual) {
+                            const result = {};
+                            result.pass = (typeof actual === 'string' || actual instanceof String)
+                                            && actual.length > 0;
+                            if (result.pass) {
+                                result.message = 'Expected feed NOT to be non-empty string';
+                            } else {
+                                result.message = 'Expected feed to be non-empty string';
+                            }
+                            return result;
+                        }
+                    }
+                }
+            };
+
+            jasmine.addMatchers(customMatchers);
+        });
+
         /* This is our first test - it tests to make sure that the
          * allFeeds variable has been defined and that it is not
          * empty. Experiment with this before you get started on
@@ -31,12 +55,26 @@ $(function() {
          * in the allFeeds object and ensures it has a URL defined
          * and that the URL is not empty.
          */
+         /* If I just expect it toBeDefined and length not to be > 0
+          * it might be a nonempty array
+          * or maybe something else with length property
+          */
 
+        it('have non-empty URLs', function() {
+            allFeeds.forEach(feed => {
+                expect(feed.url).toBeNonEmptyString();
+            });
+        });
 
         /* TODO: Write a test that loops through each feed
          * in the allFeeds object and ensures it has a name defined
          * and that the name is not empty.
          */
+        it('have non-empty names', function() {
+            allFeeds.forEach(feed => {
+                expect(feed.name).toBeNonEmptyString();
+            });
+        });
     });
 
 
