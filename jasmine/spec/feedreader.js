@@ -79,18 +79,46 @@ $(function() {
 
 
     /* TODO: Write a new test suite named "The menu" */
+    describe('The menu', function() {
 
+        beforeEach(function() {
+            const customMatchers = {
+                toHaveClass: function() {
+                    return {
+                        compare: function(actual, expected) {
+                            const result = {};
+                            result.pass = actual.classList.contains(expected);
+                            
+                            if (result.pass) {
+                                result.message = 'Expected feed NOT to be non-empty string';
+                            } else {
+                                result.message = 'Expected feed to be non-empty string';
+                            }
+                            return result;
+                        }
+                    }
+                }
+            };
+
+            jasmine.addMatchers(customMatchers);
+        });
         /* TODO: Write a test that ensures the menu element is
          * hidden by default. You'll have to analyze the HTML and
          * the CSS to determine how we're performing the
          * hiding/showing of the menu element.
          */
+         it('is hidden by default', function() {
+            const body = document.getElementsByTagName('body')[0];
+
+            expect(body).toHaveClass('menu-hidden')
+         });
 
          /* TODO: Write a test that ensures the menu changes
           * visibility when the menu icon is clicked. This test
           * should have two expectations: does the menu display when
           * clicked and does it hide when clicked again.
           */
+    });
 
     /* TODO: Write a new test suite named "Initial Entries" */
 
