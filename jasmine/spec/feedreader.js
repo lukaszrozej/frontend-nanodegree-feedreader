@@ -89,7 +89,7 @@ $(function() {
          it('is hidden by default', function() {
             const body = document.getElementsByTagName('body')[0];
 
-            expect(body).toHaveClass('menu-hidden')
+            expect(body.classList).toContain('menu-hidden')
          });
 
          /* TODO: Write a test that ensures the menu changes
