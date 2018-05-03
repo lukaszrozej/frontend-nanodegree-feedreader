@@ -82,7 +82,7 @@ $(function() {
       allFeeds.forEach(feed => {
         // makes sure url is defined and is string
         expect(feed.url).toEqual(jasmine.any(String));
-        // makes sure it's properly fromatted url
+        // makes sure it's properly formatted url
         expect(feed.url).toMatch(re_weburl);
       });
     });
