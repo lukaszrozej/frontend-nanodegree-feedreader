@@ -116,16 +116,29 @@ $(function() {
      * the use of Jasmine's beforeEach and asynchronous done() function.
      */
 
-     beforeEach(function(done) {
-        // clear feed container?
-        loadFeed(0, done);
-     });
 
-     it('are in the feed container after loadFeed is called', function() {
-        const entry = document.querySelector('.feed .entry');
+    // Variable allFeeds is overwritten for the duration of the test
+    // to make sure function loadFeed is tested independently of allFeeds
+    let savedAllFeeds;
 
-        expect(entry).not.toBeNull();
-     });
+    beforeEach(function(done) {
+    savedAllFeeds = allFeeds;
+    allFeeds = [{
+      name: 'Udacity Blog',
+      url: 'http://blog.udacity.com/feed'
+    }];
+    loadFeed(0, done);
+    });
+
+    afterEach(function() {
+      allFeeds = savedAllFeeds;
+    });
+
+    it('are in the feed container after loadFeed is called', function() {
+      const entry = document.querySelector('.feed .entry');
+
+      expect(entry).not.toBeNull();
+    });
   });
 
   /* TODO: Write a new test suite named "New Feed Selection" */
