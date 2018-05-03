@@ -15,29 +15,6 @@ $(function() {
    */
   describe('RSS Feeds', function() {
 
-    // beforeEach or beforeAll
-    beforeEach(function() {
-      const customMatchers = {
-        toBeNonEmptyString: function() {
-          return {
-            compare: function(actual) {
-              const result = {};
-              result.pass = (typeof actual === 'string' || actual instanceof String) &&
-                actual.length > 0;
-              if (result.pass) {
-                result.message = 'Expected feed NOT to be non-empty string';
-              } else {
-                result.message = 'Expected feed to be non-empty string';
-              }
-              return result;
-            }
-          }
-        }
-      };
-
-      jasmine.addMatchers(customMatchers);
-    });
-
     /* This is our first test - it tests to make sure that the
      * allFeeds variable has been defined and that it is not
      * empty. Experiment with this before you get started on
@@ -126,22 +103,25 @@ $(function() {
 
   describe('The menu', function() {
 
-    it('is hidden by default', function() {
-      const body = document.querySelector('body');
+    const body = document.querySelector('body');
+    const menu = document.querySelector('.slide-menu');
+    const icon = document.querySelector('.icon-list');
 
-      expect(body.classList).toContain('menu-hidden')
+
+    it('is hidden by default', function() {
+      expect(body.classList).toContain('menu-hidden');
     });
 
-    it('changes visibility when menu icon is clicked', function() {
-      const body = document.querySelector('body');
-      const icon = document.querySelector('.menu-icon-link');
+
+    it('changes visibility when hanburger icon is clicked', function() {
 
       icon.click();
       expect(body.classList).not.toContain('menu-hidden');
 
       icon.click();
-      expect(body.classList).toContain('menu-hidden')
+      expect(body.classList).toContain('menu-hidden');
     });
+
   });
 
   // In the following two test suits
