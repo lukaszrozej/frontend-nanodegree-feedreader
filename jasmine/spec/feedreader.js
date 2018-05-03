@@ -50,18 +50,63 @@ $(function() {
       expect(allFeeds.length).not.toBe(0);
     });
 
-    /* TODO: Write a test that loops through each feed
-     * in the allFeeds object and ensures it has a URL defined
-     * and that the URL is not empty.
-     */
     /* If I just expect it toBeDefined and length not to be > 0
      * it might be a nonempty array
      * or maybe something else with length property
      */
 
     it('have non-empty URLs', function() {
+
+      // Regular Expression for URL validation
+      //
+      // Author: Diego Perini
+      // Updated: 2010/12/05
+      // License: MIT      // Regular expr
+      //
+      // copied from: https://gist.github.com/dperini/729294
+
+      const re_weburl = new RegExp(
+        "^" +
+          // protocol identifier
+          "(?:(?:https?|ftp)://)" +
+          // user:pass authentication
+          "(?:\\S+(?::\\S*)?@)?" +
+          "(?:" +
+            // IP address exclusion
+            // private & local networks
+            "(?!(?:10|127)(?:\\.\\d{1,3}){3})" +
+            "(?!(?:169\\.254|192\\.168)(?:\\.\\d{1,3}){2})" +
+            "(?!172\\.(?:1[6-9]|2\\d|3[0-1])(?:\\.\\d{1,3}){2})" +
+            // IP address dotted notation octets
+            // excludes loopback network 0.0.0.0
+            // excludes reserved space >= 224.0.0.0
+            // excludes network & broacast addresses
+            // (first & last IP address of each class)
+            "(?:[1-9]\\d?|1\\d\\d|2[01]\\d|22[0-3])" +
+            "(?:\\.(?:1?\\d{1,2}|2[0-4]\\d|25[0-5])){2}" +
+            "(?:\\.(?:[1-9]\\d?|1\\d\\d|2[0-4]\\d|25[0-4]))" +
+          "|" +
+            // host name
+            "(?:(?:[a-z\\u00a1-\\uffff0-9]-*)*[a-z\\u00a1-\\uffff0-9]+)" +
+            // domain name
+            "(?:\\.(?:[a-z\\u00a1-\\uffff0-9]-*)*[a-z\\u00a1-\\uffff0-9]+)*" +
+            // TLD identifier
+            "(?:\\.(?:[a-z\\u00a1-\\uffff]{2,}))" +
+            // TLD may end with dot
+            "\\.?" +
+          ")" +
+          // port number
+          "(?::\\d{2,5})?" +
+          // resource path
+          "(?:[/?#]\\S*)?" +
+        "$", "i"
+      );
+
       allFeeds.forEach(feed => {
-        expect(feed.url).toBeNonEmptyString();
+        // makes sure url is defined and is string
+        expect(feed.url).toEqual(jasmine.any(String));
+        // makes sure it's properly fromatted url
+        expect(feed.url).toMatch(re_weburl);
       });
     });
 
@@ -71,30 +116,22 @@ $(function() {
      */
     it('have non-empty names', function() {
       allFeeds.forEach(feed => {
-        expect(feed.name).toBeNonEmptyString();
+        // makes sure name is defined and is string
+        expect(feed.name).toEqual(jasmine.any(String));
+        // makes sure it is not empty
+        expect(feed.name.length).not.toBe(0);
       });
     });
   });
 
-  /* TODO: Write a new test suite named "The menu" */
   describe('The menu', function() {
 
-    /* TODO: Write a test that ensures the menu element is
-     * hidden by default. You'll have to analyze the HTML and
-     * the CSS to determine how we're performing the
-     * hiding/showing of the menu element.
-     */
     it('is hidden by default', function() {
       const body = document.querySelector('body');
 
       expect(body.classList).toContain('menu-hidden')
     });
 
-    /* TODO: Write a test that ensures the menu changes
-     * visibility when the menu icon is clicked. This test
-     * should have two expectations: does the menu display when
-     * clicked and does it hide when clicked again.
-     */
     it('changes visibility when menu icon is clicked', function() {
       const body = document.querySelector('body');
       const icon = document.querySelector('.menu-icon-link');
