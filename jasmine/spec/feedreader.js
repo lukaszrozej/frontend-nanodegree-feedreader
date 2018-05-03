@@ -107,27 +107,30 @@ $(function() {
     });
   });
 
-  /* TODO: Write a new test suite named "Initial Entries" */
+  // In the following two test suits
+  // variable allFeeds is overwritten for the duration of the test
+  // to make sure function loadFeed is tested independently of allFeeds.
+  //
+  // Without this the test could even if function loadFeed would work properly.
+  //
+  // For example in the 'New Feed selection' suit the test would fail
+  // if allFeeds had only 1 feed
+  //
+  // I considered using dependency injection:
+  // passing allFeeds to loadFeed as a parameter
+  // but decided against it because I'm assuming
+  // we're only supposed to test existing code, not to change it
+
   describe('Initial Entries', function() {
-    /* TODO: Write a test that ensures when the loadFeed
-     * function is called and completes its work, there is at least
-     * a single .entry element within the .feed container.
-     * Remember, loadFeed() is asynchronous so this test will require
-     * the use of Jasmine's beforeEach and asynchronous done() function.
-     */
-
-
-    // Variable allFeeds is overwritten for the duration of the test
-    // to make sure function loadFeed is tested independently of allFeeds
     let savedAllFeeds;
 
     beforeEach(function(done) {
-    savedAllFeeds = allFeeds;
-    allFeeds = [{
-      name: 'Udacity Blog',
-      url: 'http://blog.udacity.com/feed'
-    }];
-    loadFeed(0, done);
+      savedAllFeeds = allFeeds;
+      allFeeds = [{
+        name: 'Udacity Blog',
+        url: 'http://blog.udacity.com/feed'
+      }];
+      loadFeed(0, done);
     });
 
     afterEach(function() {
@@ -141,19 +144,23 @@ $(function() {
     });
   });
 
-  /* TODO: Write a new test suite named "New Feed Selection" */
   describe('New Feed Selection', function() {
-  /* TODO: Write a test that ensures when a new feed is loaded
-   * by the loadFeed function that the content actually changes.
-   * Remember, loadFeed() is asynchronous.
-   */
+    let savedAllFeeds;
     let contentBefore;
     let contentAfter;
 
     beforeEach(function(done) {
+      savedAllFeeds = allFeeds;
+      allFeeds = [{
+        name: 'Udacity Blog',
+        url: 'http://blog.udacity.com/feed'
+      }, {
+        name: 'CSS Tricks',
+        url: 'http://feeds.feedburner.com/CssTricks'
+      }];
+
       const feedContainer = document.querySelector('.feed');
 
-      // what if feed 1 doesn't exist?
       loadFeed(1, () => {
         contentBefore = feedContainer.innerHTML;
         loadFeed(0, () => {
@@ -162,6 +169,10 @@ $(function() {
         });
       });
 
+    });
+
+    afterEach(function() {
+      allFeeds = savedAllFeeds;
     });
 
     it('changes content of the feed container', function() {
