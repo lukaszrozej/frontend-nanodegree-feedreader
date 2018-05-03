@@ -116,6 +116,11 @@ $(function() {
   // For example in the 'New Feed selection' suit the test would fail
   // if allFeeds had only 1 feed
   //
+  // This approach was inspired by tests provided by Udacity
+  // for 'Build your own templating function' quiz in
+  // Lesson 9 about frameworks,
+  // where console.log is overwritten in the test
+  //
   // I considered using dependency injection:
   // passing allFeeds to loadFeed as a parameter
   // but decided against it because I'm assuming
