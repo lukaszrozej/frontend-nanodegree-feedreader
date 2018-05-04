@@ -107,19 +107,70 @@ $(function() {
     const menu = document.querySelector('.slide-menu');
     const icon = document.querySelector('.icon-list');
 
+    beforeEach(function() {
+      const customMatchers = {
+        // This matcher checks if html element is outside the bounds of document
+        toBeHidden: function() {
+          return {
+            compare: function(actual) {
+              const result = {};
+              const elementRect = actual.getBoundingClientRect();
+              const documentRect = document.documentElement.getBoundingClientRect();
+              result.pass =
+                elementRect.right <= documentRect.left ||
+                elementRect.left >= documentRect.right ||
+                elementRect.bottom <= documentRect.top ||
+                elementRect.top >= documentRect.bottom;
+              if (result.pass) {
+                result.message = 'Expected feed NOT to be non-empty string';
+              } else {
+                result.message = 'Expected feed to be non-empty string';
+              }
+              return result;
+            }
+          };
+        }
+      };
+      jasmine.addMatchers(customMatchers);
+    });
 
     it('is hidden by default', function() {
       expect(body.classList).toContain('menu-hidden');
+      expect(menu).toBeHidden();
     });
 
+    describe('when hidden and hamburger icon is clicked', function() {
+      beforeEach(function(done) {
+        body.classList.add('menu-hidden');
+        // wait to make sure it starts hidden
+        setTimeout(function() {
+          icon.click();
+          // wait to give it time to appear
+          setTimeout(done, 300);
+        }, 300);
+      });
 
-    it('changes visibility when hanburger icon is clicked', function() {
+      it('appears within 300 ms', function() {
+        expect(body.classList).not.toContain('menu-hidden');
+        expect(menu).not.toBeHidden();
+      });
+    });
 
-      icon.click();
-      expect(body.classList).not.toContain('menu-hidden');
+    describe('when visible and hamburger icon is clicked', function() {
+      beforeEach(function(done) {
+        body.classList.remove('menu-hidden');
+        // wait to make sure it starts visible
+        setTimeout(function() {
+          icon.click();
+          // wait to give it time to hide
+          setTimeout(done, 300);
+        }, 300);
+      });
 
-      icon.click();
-      expect(body.classList).toContain('menu-hidden');
+      it('hides within 300 ms', function() {
+        expect(body.classList).toContain('menu-hidden');
+        expect(menu).toBeHidden();
+      });
     });
 
   });
