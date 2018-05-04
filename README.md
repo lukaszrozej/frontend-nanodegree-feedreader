@@ -2,7 +2,7 @@
 
 This is a project made for Udacity Front-End Nanodegree.
 The goal was to write tests for a FeedReader application.
-For more information read [overview provided by Udacity](https://github.com/lukaszrozej/frontend-nanodegree-feedreader/blob/master/README.md)
+For more information read [overview provided by Udacity](https://github.com/lukaszrozej/frontend-nanodegree-feedreader/blob/master/OVERVIEW.md)
 
 ## Additional stuff
 
